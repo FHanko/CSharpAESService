@@ -73,9 +73,29 @@ namespace CryptMe_Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DecIcon128 {
+            get {
+                object obj = ResourceManager.GetObject("DecIcon128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EncIcon {
             get {
                 object obj = ResourceManager.GetObject("EncIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EncIcon128 {
+            get {
+                object obj = ResourceManager.GetObject("EncIcon128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

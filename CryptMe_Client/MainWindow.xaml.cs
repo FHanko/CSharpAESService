@@ -26,25 +26,24 @@ namespace CryptMe_Client
     {
         CM.CryptMeClient CMC;
         enum EncryptMode { Encrypt, Decrypt, Key };
-        byte[] CurrentKey;
-        byte[] CurrentIV;
+        public KeyPair CurrentKeyPair { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             CMC = new CM.CryptMeClient("BasicHttpBinding_ICryptMe");
             EncBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Encrypt);
             DecBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Decrypt);
+            KeyBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Key);
             GenerateKeyIV();
         }
 
         void GenerateKeyIV()
         {
-            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            using (RijndaelManaged KeyGen = new RijndaelManaged())
             {
-                myRijndael.GenerateKey();
-                myRijndael.GenerateIV();
-                CurrentKey = myRijndael.Key;
-                CurrentIV = myRijndael.IV;
+                KeyGen.GenerateKey();
+                KeyGen.GenerateIV();
+                CurrentKeyPair = new KeyPair() { CurrentKey = KeyGen.Key, CurrentIV = KeyGen.IV };
             }
         }
 
@@ -79,9 +78,8 @@ namespace CryptMe_Client
                 {
                     json = SR.ReadToEnd();
                 }
-                List<byte[]> Keys = JsonConvert.DeserializeObject<List<byte[]>>(json);
-                CurrentKey = Keys[0];
-                CurrentIV = Keys[1];
+                CurrentKeyPair = JsonConvert.DeserializeObject<KeyPair>(json);
+                KeyField.Content = $"Key \r\n{Convert.ToBase64String(CurrentKeyPair.CurrentKey)}";
                 return true;
             }
             catch (Exception e)
@@ -103,10 +101,9 @@ namespace CryptMe_Client
                     buffer = BR.ReadBytes(len);
                 }
                 string toBase64 = Convert.ToBase64String(buffer);
-                byte[] encrypted = CMC.CryptAES(toBase64, CurrentKey, CurrentIV);
+                byte[] encrypted = CMC.CryptAES(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
                 WriteFile(encrypted, $"{file}.enc");
-                List<byte[]> Keys = new List<byte[]>() { CurrentKey, CurrentIV };
-                WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(Keys)), $"{file}.key");
+                WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(CurrentKeyPair)), $"{file}.key");
                 return true;
             }
             catch(Exception e)
@@ -127,7 +124,7 @@ namespace CryptMe_Client
                 {
                     buffer = BR.ReadBytes(len);
                 }
-                string roundtrip = CMC.DecryptAES(buffer, CurrentKey, CurrentIV);
+                string roundtrip = CMC.DecryptAES(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
                 string filename = file.Split('.').Take(file.Split('.').Count()-1).Aggregate((s,s1) => $"{s}.{s1}");
                 WriteFile(Convert.FromBase64String(roundtrip), $"{filename}");
                 return true;
