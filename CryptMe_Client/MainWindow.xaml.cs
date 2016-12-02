@@ -55,15 +55,15 @@ namespace CryptMe_Client
                 foreach (string file in files)
                     if (em == EncryptMode.Encrypt)
                     {
-                        if (!FileCrypt(file)) MessageBox.Show($"Error while encrypting {file}");
+                        if (!FileCrypt(file)) MessageBox.Show($"Error while encrypting {file}. Check the Error log for more information.");
                     }
                     else if (em == EncryptMode.Decrypt)
                     {
-                        if (!FileDecrypt(file)) MessageBox.Show($"Error while decrypting {file}");
+                        if (!FileDecrypt(file)) MessageBox.Show($"Error while decrypting {file}. Check the Error log for more information.");
                     }
                     else if (em == EncryptMode.Key)
                     {
-                        if (!LoadKey(file)) MessageBox.Show($"Error while loading {file}");
+                        if (!LoadKey(file)) MessageBox.Show($"Error while loading {file}. Check the Error log for more information.");
                     }
             }
         }
@@ -72,19 +72,14 @@ namespace CryptMe_Client
         {
             try
             {
-                string json;
-                using (FileStream FS = new FileStream(file, FileMode.Open))
-                using (StreamReader SR = new StreamReader(FS))
-                {
-                    json = SR.ReadToEnd();
-                }
+                string json = FileIO.ReadFileString(file);
                 CurrentKeyPair = JsonConvert.DeserializeObject<KeyPair>(json);
                 KeyField.Content = $"Key \r\n{Convert.ToBase64String(CurrentKeyPair.CurrentKey)}";
                 return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show("" + e.Message);
+                FileIO.WriteFile(Encoding.Default.GetBytes(e.Message), "Error.txt");
                 return false;
             }
         }
@@ -93,22 +88,16 @@ namespace CryptMe_Client
         {
             try
             {
-                int len = (int)(new FileInfo(file).Length);
-                byte[] buffer = new byte[len];
-                using (FileStream FS = new FileStream(file, FileMode.Open))
-                using (BinaryReader BR = new BinaryReader(FS))
-                {
-                    buffer = BR.ReadBytes(len);
-                }
+                byte[] buffer = FileIO.ReadFile(file);
                 string toBase64 = Convert.ToBase64String(buffer);
                 byte[] encrypted = CMC.CryptAES(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
-                WriteFile(encrypted, $"{file}.enc");
-                WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(CurrentKeyPair)), $"{file}.key");
+                FileIO.WriteFile(encrypted, $"{file}.enc");
+                FileIO.WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(CurrentKeyPair)), $"{file}.key");
                 return true;
             }
             catch(Exception e)
             {
-                MessageBox.Show("" + e.Message);
+                FileIO.WriteFile(Encoding.Default.GetBytes(e.Message), "Error.txt");
                 return false;
             }
         }
@@ -117,41 +106,18 @@ namespace CryptMe_Client
         {
             try
             {
-                int len = (int)(new FileInfo(file).Length);
-                byte[] buffer = new byte[len];
-                using (FileStream FS = new FileStream(file, FileMode.Open))
-                using (BinaryReader BR = new BinaryReader(FS))
-                {
-                    buffer = BR.ReadBytes(len);
-                }
+                byte[] buffer = FileIO.ReadFile(file);
                 string roundtrip = CMC.DecryptAES(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
                 string filename = file.Split('.').Take(file.Split('.').Count()-1).Aggregate((s,s1) => $"{s}.{s1}");
-                WriteFile(Convert.FromBase64String(roundtrip), $"{filename}");
+                FileIO.WriteFile(Convert.FromBase64String(roundtrip), $"{filename}");
                 return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show("" + e.Message);
+                FileIO.WriteFile(Encoding.Default.GetBytes(e.Message), "Error.txt");
                 return false;
             }
         }
 
-        void WriteFile(byte[] buffer, string name)
-        {
-            using (FileStream FS = new FileStream(name, FileMode.Create))
-            using (BinaryWriter BR = new BinaryWriter(FS))
-            {
-                BR.Write(buffer);
-            }
-        }
-        void WriteFileToBase64(byte[] buffer, string name)
-        {
-            string b64 = Convert.ToBase64String(buffer);
-            using (FileStream FS = new FileStream(name, FileMode.Create))
-            using (StreamWriter BR = new StreamWriter(FS))
-            {
-                BR.Write(b64);
-            }
-        }
     }
 }
