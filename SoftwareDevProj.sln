@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptMe_Service", "CryptMe_Service\CryptMe_Service.csproj", "{86BAD921-82D8-42A6-BF01-010D125A74B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptMe_Hoster", "CryptMe_Hoster\CryptMe_Hoster.csproj", "{7FEEFB77-4A21-4385-AE2F-1E73F55E5378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptMe_Client", "CryptMe_Client\CryptMe_Client.csproj", "{3C58B82A-6455-4CF0-BEB4-A4DEA1B76965}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86BAD921-82D8-42A6-BF01-010D125A74B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86BAD921-82D8-42A6-BF01-010D125A74B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86BAD921-82D8-42A6-BF01-010D125A74B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86BAD921-82D8-42A6-BF01-010D125A74B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FEEFB77-4A21-4385-AE2F-1E73F55E5378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FEEFB77-4A21-4385-AE2F-1E73F55E5378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FEEFB77-4A21-4385-AE2F-1E73F55E5378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FEEFB77-4A21-4385-AE2F-1E73F55E5378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C58B82A-6455-4CF0-BEB4-A4DEA1B76965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C58B82A-6455-4CF0-BEB4-A4DEA1B76965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C58B82A-6455-4CF0-BEB4-A4DEA1B76965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C58B82A-6455-4CF0-BEB4-A4DEA1B76965}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
