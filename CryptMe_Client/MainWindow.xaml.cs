@@ -74,7 +74,7 @@ namespace CryptMe_Client
             {
                 string json = FileIO.ReadFileString(file);
                 CurrentKeyPair = JsonConvert.DeserializeObject<KeyPair>(json);
-                KeyField.Content = $"Key \r\n{Convert.ToBase64String(CurrentKeyPair.CurrentKey)}";
+                KeyField.Content = $"Current Key \r\n{Convert.ToBase64String(CurrentKeyPair.CurrentKey)}";
                 return true;
             }
             catch (Exception e)

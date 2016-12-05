@@ -15,7 +15,7 @@
         <Label Grid.Column="0" HorizontalAlignment="Center" Content="Drop a File here to encrypt" VerticalAlignment="Top" Margin="0,20,0,0" Foreground="#E5202020"/>
         <Label Grid.Column="1" HorizontalAlignment="Center" Content="Drop a File here to import key" VerticalAlignment="Top" Margin="0,20,0,0" Foreground="#E5202020"/>
         <Label Grid.Column="2" HorizontalAlignment="Center" Content="Drop a File here to decrypt" VerticalAlignment="Top" Margin="0,20,0,0" Foreground="#E5202020"/>
-        <Label Grid.Column="1" x:Name="KeyField" Content="" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" Foreground="#CF202020"/>
+        <Label Grid.Column="1" x:Name="KeyField" Content="Current Key" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" Foreground="#CF202020"/>
         <ListBox Grid.Column="0" x:Name="EncBox" AllowDrop="True">
             <ListBox.Background>
                 <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/EncIcon128.png" Stretch="None"/>
