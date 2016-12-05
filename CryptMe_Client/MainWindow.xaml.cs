@@ -47,7 +47,7 @@ namespace CryptMe_Client
             }
         }
 
-        void DropFile(object o, DragEventArgs e, EncryptMode em)
+        async void DropFile(object o, DragEventArgs e, EncryptMode em)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -55,15 +55,15 @@ namespace CryptMe_Client
                 foreach (string file in files)
                     if (em == EncryptMode.Encrypt)
                     {
-                        if (!FileCrypt(file)) MessageBox.Show($"Error while encrypting {file}. Check the Error log for more information.");
+                        if (!(await FileCrypt(file))) MessageBox.Show($"Error while encrypting {file}. Check the Error log for more information.");
                     }
                     else if (em == EncryptMode.Decrypt)
                     {
-                        if (!FileDecrypt(file)) MessageBox.Show($"Error while decrypting {file}. Check the Error log for more information.");
+                        if (!(await FileDecrypt(file))) MessageBox.Show($"Error while decrypting {file}. Check the Error log for more information.");
                     }
                     else if (em == EncryptMode.Key)
                     {
-                        if (!LoadKey(file)) MessageBox.Show($"Error while loading {file}. Check the Error log for more information.");
+                        if (!(LoadKey(file))) MessageBox.Show($"Error while loading {file}. Check the Error log for more information.");
                     }
             }
         }
@@ -84,13 +84,13 @@ namespace CryptMe_Client
             }
         }
 
-        bool FileCrypt(string file)
+        async Task<bool> FileCrypt(string file)
         {
             try
             {
                 byte[] buffer = FileIO.ReadFile(file);
                 string toBase64 = Convert.ToBase64String(buffer);
-                byte[] encrypted = CMC.CryptAES(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
+                byte[] encrypted = await CMC.CryptAESAsync(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
                 FileIO.WriteFile(encrypted, $"{file}.enc");
                 FileIO.WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(CurrentKeyPair)), $"{file}.key");
                 return true;
@@ -102,12 +102,12 @@ namespace CryptMe_Client
             }
         }
 
-        bool FileDecrypt(string file)
+        async Task<bool> FileDecrypt(string file)
         {
             try
             {
                 byte[] buffer = FileIO.ReadFile(file);
-                string roundtrip = CMC.DecryptAES(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
+                string roundtrip = await CMC.DecryptAESAsync(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
                 string filename = file.Split('.').Take(file.Split('.').Count()-1).Aggregate((s,s1) => $"{s}.{s1}");
                 FileIO.WriteFile(Convert.FromBase64String(roundtrip), $"{filename}");
                 return true;
