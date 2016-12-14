@@ -15,17 +15,29 @@ namespace CryptMe_Client.CryptMe {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="CryptMe.ICryptMe")]
     public interface ICryptMe {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/CryptAES", ReplyAction="http://tempuri.org/ICryptMe/CryptAESResponse")]
-        byte[] CryptAES(string plainText, byte[] Key, byte[] IV);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/CheckUser", ReplyAction="http://tempuri.org/ICryptMe/CheckUserResponse")]
+        bool CheckUser(string uname, string upwd);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/CheckUser", ReplyAction="http://tempuri.org/ICryptMe/CheckUserResponse")]
+        System.Threading.Tasks.Task<bool> CheckUserAsync(string uname, string upwd);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/RegisterUser", ReplyAction="http://tempuri.org/ICryptMe/RegisterUserResponse")]
+        bool RegisterUser(string uname, string upwd);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/RegisterUser", ReplyAction="http://tempuri.org/ICryptMe/RegisterUserResponse")]
+        System.Threading.Tasks.Task<bool> RegisterUserAsync(string uname, string upwd);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/CryptAES", ReplyAction="http://tempuri.org/ICryptMe/CryptAESResponse")]
-        System.Threading.Tasks.Task<byte[]> CryptAESAsync(string plainText, byte[] Key, byte[] IV);
+        byte[] CryptAES(string plainText, byte[] Key, byte[] IV, string user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/CryptAES", ReplyAction="http://tempuri.org/ICryptMe/CryptAESResponse")]
+        System.Threading.Tasks.Task<byte[]> CryptAESAsync(string plainText, byte[] Key, byte[] IV, string user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/DecryptAES", ReplyAction="http://tempuri.org/ICryptMe/DecryptAESResponse")]
-        string DecryptAES(byte[] cipherText, byte[] Key, byte[] IV);
+        string DecryptAES(byte[] cipherText, byte[] Key, byte[] IV, string user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICryptMe/DecryptAES", ReplyAction="http://tempuri.org/ICryptMe/DecryptAESResponse")]
-        System.Threading.Tasks.Task<string> DecryptAESAsync(byte[] cipherText, byte[] Key, byte[] IV);
+        System.Threading.Tasks.Task<string> DecryptAESAsync(byte[] cipherText, byte[] Key, byte[] IV, string user);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -55,20 +67,36 @@ namespace CryptMe_Client.CryptMe {
                 base(binding, remoteAddress) {
         }
         
-        public byte[] CryptAES(string plainText, byte[] Key, byte[] IV) {
-            return base.Channel.CryptAES(plainText, Key, IV);
+        public bool CheckUser(string uname, string upwd) {
+            return base.Channel.CheckUser(uname, upwd);
         }
         
-        public System.Threading.Tasks.Task<byte[]> CryptAESAsync(string plainText, byte[] Key, byte[] IV) {
-            return base.Channel.CryptAESAsync(plainText, Key, IV);
+        public System.Threading.Tasks.Task<bool> CheckUserAsync(string uname, string upwd) {
+            return base.Channel.CheckUserAsync(uname, upwd);
         }
         
-        public string DecryptAES(byte[] cipherText, byte[] Key, byte[] IV) {
-            return base.Channel.DecryptAES(cipherText, Key, IV);
+        public bool RegisterUser(string uname, string upwd) {
+            return base.Channel.RegisterUser(uname, upwd);
         }
         
-        public System.Threading.Tasks.Task<string> DecryptAESAsync(byte[] cipherText, byte[] Key, byte[] IV) {
-            return base.Channel.DecryptAESAsync(cipherText, Key, IV);
+        public System.Threading.Tasks.Task<bool> RegisterUserAsync(string uname, string upwd) {
+            return base.Channel.RegisterUserAsync(uname, upwd);
+        }
+        
+        public byte[] CryptAES(string plainText, byte[] Key, byte[] IV, string user) {
+            return base.Channel.CryptAES(plainText, Key, IV, user);
+        }
+        
+        public System.Threading.Tasks.Task<byte[]> CryptAESAsync(string plainText, byte[] Key, byte[] IV, string user) {
+            return base.Channel.CryptAESAsync(plainText, Key, IV, user);
+        }
+        
+        public string DecryptAES(byte[] cipherText, byte[] Key, byte[] IV, string user) {
+            return base.Channel.DecryptAES(cipherText, Key, IV, user);
+        }
+        
+        public System.Threading.Tasks.Task<string> DecryptAESAsync(byte[] cipherText, byte[] Key, byte[] IV, string user) {
+            return base.Channel.DecryptAESAsync(cipherText, Key, IV, user);
         }
     }
 }

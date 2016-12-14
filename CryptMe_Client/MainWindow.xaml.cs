@@ -24,13 +24,11 @@ namespace CryptMe_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        CM.CryptMeClient CMC;
         enum EncryptMode { Encrypt, Decrypt, Key };
         public KeyPair CurrentKeyPair { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            CMC = new CM.CryptMeClient("BasicHttpBinding_ICryptMe");
             EncBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Encrypt);
             DecBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Decrypt);
             KeyBox.Drop += (o, e) => DropFile(o, e, EncryptMode.Key);
@@ -90,7 +88,7 @@ namespace CryptMe_Client
             {
                 byte[] buffer = FileIO.ReadFile(file);
                 string toBase64 = Convert.ToBase64String(buffer);
-                byte[] encrypted = await CMC.CryptAESAsync(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
+                byte[] encrypted = await Login.CMC.CryptAESAsync(toBase64, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV, Login.currentUser);
                 FileIO.WriteFile(encrypted, $"{file}.enc");
                 FileIO.WriteFile(Encoding.Default.GetBytes(JsonConvert.SerializeObject(CurrentKeyPair)), $"{file}.key");
                 return true;
@@ -107,7 +105,7 @@ namespace CryptMe_Client
             try
             {
                 byte[] buffer = FileIO.ReadFile(file);
-                string roundtrip = await CMC.DecryptAESAsync(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV);
+                string roundtrip = await Login.CMC.DecryptAESAsync(buffer, CurrentKeyPair.CurrentKey, CurrentKeyPair.CurrentIV, Login.currentUser);
                 string filename = file.Split('.').Take(file.Split('.').Count()-1).Aggregate((s,s1) => $"{s}.{s1}");
                 FileIO.WriteFile(Convert.FromBase64String(roundtrip), $"{filename}");
                 return true;

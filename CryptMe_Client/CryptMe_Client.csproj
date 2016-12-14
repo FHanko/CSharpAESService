@@ -64,11 +64,18 @@
     </ApplicationDefinition>
     <Compile Include="FileIO.cs" />
     <Compile Include="KeyPair.cs" />
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service References\CryptMe\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

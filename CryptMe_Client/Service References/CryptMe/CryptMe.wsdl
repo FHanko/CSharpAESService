@@ -42,6 +42,18 @@
       <xsd:import schemaLocation="http://localhost:6779/CryptMe?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ICryptMe_CheckUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUser" />
+  </wsdl:message>
+  <wsdl:message name="ICryptMe_CheckUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICryptMe_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="ICryptMe_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  </wsdl:message>
   <wsdl:message name="ICryptMe_CryptAES_InputMessage">
     <wsdl:part name="parameters" element="tns:CryptAES" />
   </wsdl:message>
@@ -55,6 +67,14 @@
     <wsdl:part name="parameters" element="tns:DecryptAESResponse" />
   </wsdl:message>
   <wsdl:portType name="ICryptMe">
+    <wsdl:operation name="CheckUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICryptMe/CheckUser" message="tns:ICryptMe_CheckUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICryptMe/CheckUserResponse" message="tns:ICryptMe_CheckUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICryptMe/RegisterUser" message="tns:ICryptMe_RegisterUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICryptMe/RegisterUserResponse" message="tns:ICryptMe_RegisterUser_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="CryptAES">
       <wsdl:input wsaw:Action="http://tempuri.org/ICryptMe/CryptAES" message="tns:ICryptMe_CryptAES_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICryptMe/CryptAESResponse" message="tns:ICryptMe_CryptAES_OutputMessage" />
@@ -67,6 +87,24 @@
   <wsdl:binding name="BasicHttpBinding_ICryptMe" type="tns:ICryptMe">
     <wsp:PolicyReference URI="#BasicHttpBinding_ICryptMe_policy" />
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckUser">
+      <soap:operation soapAction="http://tempuri.org/ICryptMe/CheckUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap:operation soapAction="http://tempuri.org/ICryptMe/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CryptAES">
       <soap:operation soapAction="http://tempuri.org/ICryptMe/CryptAES" style="document" />
       <wsdl:input>
@@ -89,6 +127,24 @@
   <wsdl:binding name="NetTcpBinding_ICryptMe" type="tns:ICryptMe">
     <wsp:PolicyReference URI="#NetTcpBinding_ICryptMe_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="CheckUser">
+      <soap12:operation soapAction="http://tempuri.org/ICryptMe/CheckUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap12:operation soapAction="http://tempuri.org/ICryptMe/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CryptAES">
       <soap12:operation soapAction="http://tempuri.org/ICryptMe/CryptAES" style="document" />
       <wsdl:input>
