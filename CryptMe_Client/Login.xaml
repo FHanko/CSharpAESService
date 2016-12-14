@@ -5,13 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptMe_Client"
         mc:Ignorable="d"
-        Title="Login" Height="160" Width="220">
+        Title="Login" Height="185" Width="220">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="FlatButtonStyle">
+            <Setter Property="Background" Value="DarkCyan"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <StackPanel>
+        <StackPanel Margin="0,10,0,0">
             <TextBox Height="25" x:Name="tbx_lName"/>
             <PasswordBox Height="25" x:Name="tbx_lPassword"/>
-            <Button Height="25" Margin="0,20,0,0" Content="Login" x:Name="btn_Login"/>
-            <Button Height="25" Content="Register" x:Name="btn_Register"/>
+            <Button Style="{StaticResource FlatButtonStyle}" Height="25" Margin="0,20,0,0" Width="120" Content="Login" x:Name="btn_Login"/>
+            <Button Style="{StaticResource FlatButtonStyle}" Margin="0,5,0,0" Width="120" Height="25" Content="Register" x:Name="btn_Register"/>
         </StackPanel>
     </Grid>
 </Window>
